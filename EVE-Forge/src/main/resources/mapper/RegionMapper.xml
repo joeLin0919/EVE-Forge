@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.eveforge.mapper.RegionMapper">
+    <resultMap id="baseResultMap" type="org.eveforge.repository.po.RegionObj">
+        <result column="region_id" property="regionId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insertRegionInfo">
+        REPLACE INTO region(region_id,name,description)
+        VALUES(
+               #{regionId},
+               #{name},
+               #{description}
+              )
+    </insert>
+
+    <select id="selectRegionCountById" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM region
+        WHERE region_id = #{regionId}
+    </select>
+
+    <select id="selectRegionInfoById" resultType="org.eveforge.repository.po.RegionObj">
+        SELECT *
+        FROM region
+        WHERE region_id = #{regionId}
+    </select>
+</mapper>

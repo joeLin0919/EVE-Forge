@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.eveforge.mapper.HistoricalOrderMapper">
+    <resultMap id="baseResultMap" type="org.eveforge.repository.po.HistoricalOrderObj">
+        <result column="date" property="date" jdbcType="TIMESTAMP"/>
+        <result column="type_id" property="typeId" jdbcType="INTEGER"/>
+        <result column="region_id" property="RegionId" jdbcType="INTEGER"/>
+        <result column="order_count" property="orderCount" jdbcType="INTEGER"/>
+        <result column="volume" property="volume" jdbcType="BIGINT"/>
+        <result column="average" property="average" jdbcType="DOUBLE"/>
+        <result column="highest" property="highest" jdbcType="DOUBLE"/>
+        <result column="lowest" property="lowest" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <select id="getHistoricalOrderByTypeIdAndRegionId" resultMap="baseResultMap">
+        SELECT date, type_id, region_id, order_count, volume, average, highest, lowest
+        FROM historical_order
+        WHERE type_id = #{typeId} AND region_id = #{regionId}
+    </select>
+
+    <insert id="insertHistoricalOrders" parameterType="java.util.List">
+        INSERT INTO historical_order (date, type_id, region_id, order_count, volume, average, highest, lowest)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.date},
+            #{item.typeId},
+            #{item.RegionId},
+            #{item.orderCount},
+            #{item.volume},
+            #{item.average},
+            #{item.highest},
+            #{item.lowest}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getAllTypeIds" resultType="java.lang.Integer">
+        SELECT DISTINCT type_id
+        FROM historical_order
+    </select>
+
+    <select id="getLatestDate" resultType="java.sql.Timestamp">
+        SELECT MAX(date)
+        FROM historical_order
+        WHERE type_id = #{typeId} AND region_id = #{regionId}
+    </select>
+
+    <delete id="deleteHistoricalOrdersByDate">
+        DELETE FROM historical_order
+        WHERE type_id = #{typeId}
+          AND region_id = #{regionId}
+          AND date <![CDATA[<]]> #{date}
+    </delete>
+</mapper>

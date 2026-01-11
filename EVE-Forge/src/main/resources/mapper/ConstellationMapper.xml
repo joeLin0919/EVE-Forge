@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.eveforge.mapper.ConstellationMapper">
+    <resultMap id="baseResultMap" type="org.eveforge.repository.po.ConstellationObj">
+        <result column="constellation_id" property="constellationId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="region_id" property="regionId" jdbcType="INTEGER"/>
+        <result column="x_coordinate" property="x_coordinate" jdbcType="DOUBLE"/>
+        <result column="y_coordinate" property="y_coordinate" jdbcType="DOUBLE"/>
+        <result column="z_coordinate" property="z_coordinate" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <insert id="insertConstellationInfo">
+        REPLACE INTO constellation(constellation_id,name,region_id,x_coordinate,y_coordinate,z_coordinate)
+        VALUES(
+               #{constellationId},
+               #{name},
+               #{regionId},
+               #{x_coordinate},
+               #{y_coordinate},
+               #{z_coordinate}
+              )
+    </insert>
+    <select id="selectConstellationCountById" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM constellation
+        WHERE constellation_id = #{constellationId}
+    </select>
+</mapper>

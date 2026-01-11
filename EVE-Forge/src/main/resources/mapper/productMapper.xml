@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.eveforge.mapper.ProductMapper">
+    <resultMap id="baseResultMap" type="org.eveforge.repository.po.ProductObj">
+        <result column="capacity" property="capacity" jdbcType="DOUBLE"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="attribute_id" property="attributeId" jdbcType="INTEGER"/>
+        <result column="value" property="value" jdbcType="DOUBLE"/>
+        <result column="effect_id" property="effectId" jdbcType="INTEGER"/>
+        <result column="is_default" property="isDefault" jdbcType="BOOLEAN"/>
+        <result column="graphic_id" property="graphicId" jdbcType="INTEGER"/>
+        <result column="group_id" property="groupId" jdbcType="INTEGER"/>
+        <result column="icon_id" property="iconId" jdbcType="INTEGER"/>
+        <result column="market_group_id" property="marketGroupId" jdbcType="INTEGER"/>
+        <result column="mass" property="mass" jdbcType="DOUBLE"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="packaged_volume" property="packagedVolume" jdbcType="DOUBLE"/>
+        <result column="portion_size" property="portionSize" jdbcType="INTEGER"/>
+        <result column="published" property="published" jdbcType="BOOLEAN"/>
+        <result column="radius" property="radius" jdbcType="DOUBLE"/>
+        <result column="type_id" property="typeId" jdbcType="INTEGER"/>
+        <result column="volume" property="volume" jdbcType="DOUBLE"/>
+    </resultMap>
+    <insert id="insertProductInfo">
+        REPLACE INTO product(capacity,description,attribute_id,value,effect_id,isDefault,graphic_id,
+                            group_id,icon_id,market_group_id,mass,name,packaged_volume,portion_size,
+                            published,radius,type_id,volume)
+        VALUES(
+               #{capacity},
+               #{description},
+               #{attributeId},
+               #{value},
+               #{effectId},
+               #{isDefault},
+               #{graphicId},
+               #{groupId},
+               #{iconId},
+               #{marketGroupId},
+               #{mass},
+               #{name},
+               #{packagedVolume},
+               #{portionSize},
+               #{published},
+               #{radius},
+               #{typeId},
+               #{volume}
+              )
+    </insert>
+    <select id="selectProductCountById" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM product
+        WHERE type_id=#{typeId}
+    </select>
+
+    <select id="getProductIdByName" resultType="java.lang.Integer">
+        SELECT type_id
+        FROM product
+        WHERE name=#{name}
+    </select>
+
+    <select id="getProductNameById" resultType="java.lang.String">
+        SELECT name
+        FROM product
+        WHERE type_id= #{typeId}
+    </select>
+
+    <select id="getAllProductNames" resultType="java.lang.String">
+        SELECT name
+        FROM product
+        WHERE published=1
+    </select>
+
+    <delete id="alterPLEXName">
+        DELETE FROM product
+        WHERE name='伊甸币'
+        AND published = 0
+    </delete>
+
+    <select id="getGroupIdByName" resultType="java.lang.Integer">
+        SELECT group_id
+        FROM product
+        WHERE name= #{name}
+    </select>
+</mapper>

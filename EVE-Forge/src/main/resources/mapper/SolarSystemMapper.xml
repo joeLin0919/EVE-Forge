@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.eveforge.mapper.SolarSystemMapper">
+    <resultMap id="baseResultMap" type="org.eveforge.repository.po.SolarSystemObj">
+        <result column="system_id" property="systemId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="constellation_id" property="constellationId" jdbcType="INTEGER"/>
+        <result column="x_coordinate" property="x_coordinate" jdbcType="DOUBLE"/>
+        <result column="y_coordinate" property="y_coordinate" jdbcType="DOUBLE"/>
+        <result column="z_coordinate" property="z_coordinate" jdbcType="DOUBLE"/>
+        <result column="security_status" property="securityStatus" jdbcType="DOUBLE"/>
+        <result column="star_id" property="starId" jdbcType="INTEGER"/>
+        <result column="security_class" property="securityClass" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insertSolarSystemInfo">
+        REPLACE INTO solar_system(system_id,name,constellation_id,x_coordinate,y_coordinate,z_coordinate,
+                security_status,star_id,security_class)
+        VALUES(
+               #{systemId},
+               #{name},
+               #{constellationId},
+               #{x_coordinate},
+               #{y_coordinate},
+               #{z_coordinate},
+               #{securityStatus},
+               #{starId},
+               #{securityClass}
+              )
+    </insert>
+
+    <select id="selectSolarSystemCountById" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM solar_system
+        WHERE system_id = #{systemId}
+    </select>
+
+    <select id="selectSolarSystemInfoById" resultType="org.eveforge.repository.po.SolarSystemObj">
+        SELECT *
+        FROM solar_system
+        WHERE system_id = #{systemId}
+    </select>
+</mapper>

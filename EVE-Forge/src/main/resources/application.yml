@@ -1,0 +1,43 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: EVE-Forge
+  cache:
+    type: redis
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/eve_forge}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+      timeout: 2000ms
+
+shiro:
+  ws:
+    server:
+      enable: true
+      url: "/ws/eveForge"
+  plugin-list:
+    -  org.eveforge.plugin.MarketPlugin
+    -  org.eveforge.plugin.DailyRandomPlugin
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: org.eveforge.repository.po
+  configuration:
+    map-underscore-to-camel-case: true
+
+eve:
+  esi:
+    datasource: tranquility
+
+deepseek:
+  api:
+    key: ${DEEPSEEK_API_KEY:sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
+
+N-gram:
+  size: 2
