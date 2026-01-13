@@ -34,10 +34,12 @@ mybatis:
 eve:
   esi:
     datasource: tranquility
+    client-id: 6e40697c762642558fa0e278f2252da8
+    client-secret: eat_2SVKrkKqFM8p9H0ip3HL1ivzneGfxbznh_3tNcwY
 
 deepseek:
   api:
-    key: ${DEEPSEEK_API_KEY:sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
+    key: ${DEEPSEEK_API_KEY}
 
 N-gram:
   size: 2
