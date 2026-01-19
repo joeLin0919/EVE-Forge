@@ -99,7 +99,7 @@ public class DailyRandomServiceImpl implements IDailyRandomService {
     @Override
     public String getCompareLengthDescription(Integer compare) {
         if (compare == 0){
-            return "真是针尖对锋芒，土匪遇流氓啊！";
+            return "真是针尖对麦芒，土匪遇流氓啊！";
         }else if(compare>0&&compare<=10){
             return "不错的成绩，努力一下或许可以喔(○｀ 3′○)";
         }else if (compare>10){
