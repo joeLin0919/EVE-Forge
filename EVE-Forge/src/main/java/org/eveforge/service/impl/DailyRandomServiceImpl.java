@@ -184,7 +184,7 @@ public class DailyRandomServiceImpl implements IDailyRandomService {
 
     private String getLengthDescription(Integer value){
         String description;
-        if (value == 0) {
+        if (value <= 0) {
             description="♂今天的牛~牛长度是...什么嘛，今天你是小姐姐呀~(●ˇ∀ˇ●)";
         }else if (value < 5){
             description="♂今天的牛~牛长度是"+value+"cm, 什么嘛~原来是小~豆~丁~(•̀ ω •́)✧";
