@@ -139,8 +139,6 @@ public class ItemServiceImpl implements IItemService {
     @Override
     public List<Integer> getItemIdByName(String name) {
         List<Integer> itemIdList = productMapper.getProductIdByName(name);
-        System.out.println(itemIdList);
-        System.out.println(name);
         return itemIdList;
     }
 
