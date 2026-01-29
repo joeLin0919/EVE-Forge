@@ -23,6 +23,11 @@ public class LoginServiceImpl implements ILoginService {
     public JsonNode getToken(String authorizationCode) throws Exception {
         JsonNode tokenData = eveSsoAuthUtil.requestToken(authorizationCode);
         
+        // 打印原始token信息到控制台
+        System.out.println("=== EVE SSO Raw Token Data Structure ===");
+        System.out.println("Raw Token Response: " + tokenData.toPrettyString());
+        System.out.println("========================================");
+        
         // 打印token信息到控制台用于测试
         System.out.println("=== EVE SSO Token Info ===");
         System.out.println("Access Token: " + tokenData.get("access_token"));

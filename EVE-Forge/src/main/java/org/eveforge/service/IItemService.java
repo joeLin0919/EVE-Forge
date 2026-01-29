@@ -12,5 +12,5 @@ public interface IItemService {
 
     String getItemNameById(Integer itemId);
 
-    Integer getGroupIdByName(String name);
+    Integer getGroupIdById(Integer itemId);
 }

@@ -190,6 +190,7 @@ public class MarketServiceImpl implements IMarketService {
                                 productPriceVo.setBuyPrice(totalBuyPrice);
                                 productPriceVo.setSellPrice(totalSellPrice);
                                 productPriceVo.setMiddlePrice(totalMiddlePrice);
+                                productPriceVo.setItemId(itemId);
 
                                 // 设置显示名称
                                 String itemDisplay = quantity > 1 ?
@@ -210,7 +211,7 @@ public class MarketServiceImpl implements IMarketService {
             for(int i=0;i<results.size();i++){
                 totalsellPrice += results.get(i).getSellPrice();
                 totalBuyPrice += results.get(i).getBuyPrice();
-                Integer groupId = itemService.getGroupIdByName(results.get(i).getName());
+                Integer groupId = itemService.getGroupIdById(results.get(i).getItemId());
                 if(groupId == null || !groupId.equals(300)){
                     isImplant = false;
                     break;

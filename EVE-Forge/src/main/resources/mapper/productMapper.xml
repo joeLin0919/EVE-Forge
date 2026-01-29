@@ -58,6 +58,7 @@
         SELECT type_id
         FROM product
         WHERE name=#{name}
+        AND published=1
     </select>
 
     <select id="getProductNameById" resultType="java.lang.String">
@@ -78,9 +79,9 @@
         AND published = 0
     </delete>
 
-    <select id="getGroupIdByName" resultType="java.lang.Integer">
+    <select id="getGroupIdById" resultType="java.lang.Integer">
         SELECT group_id
         FROM product
-        WHERE name= #{name}
+        WHERE type_id= #{itemId}
     </select>
 </mapper>

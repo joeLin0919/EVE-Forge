@@ -139,6 +139,8 @@ public class ItemServiceImpl implements IItemService {
     @Override
     public List<Integer> getItemIdByName(String name) {
         List<Integer> itemIdList = productMapper.getProductIdByName(name);
+        System.out.println(itemIdList);
+        System.out.println(name);
         return itemIdList;
     }
 
@@ -150,8 +152,8 @@ public class ItemServiceImpl implements IItemService {
     }
 
     @Override
-    public Integer getGroupIdByName(String name) {
-        return productMapper.getGroupIdByName(name);
+    public Integer getGroupIdById(Integer itemId) {
+        return productMapper.getGroupIdById(itemId);
     }
 
     private ProductObj exchangeToProductObj(Product product) {

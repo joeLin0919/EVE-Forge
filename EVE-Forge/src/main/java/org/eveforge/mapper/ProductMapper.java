@@ -25,5 +25,5 @@ public interface ProductMapper {
 
     void alterPLEXName();
 
-    Integer getGroupIdByName(@Param("name") String name);
+    Integer getGroupIdById(@Param("itemId") Integer itemId);
 }

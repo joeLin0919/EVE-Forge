@@ -56,7 +56,6 @@ public class MarketPlugin extends BotPlugin {
                 try {
                     // 检查是否为物品名*N格式，如果是则不显示趋势图
                     boolean isQuantityQuery = itemName.matches(".*\\*\\d+");
-                    
                     List<ProductPriceVo> priceResults = marketService.getProductPricesByName(itemName);
                     
                     if (priceResults.isEmpty()) {
@@ -93,7 +92,7 @@ public class MarketPlugin extends BotPlugin {
                             String matchedItemName = firstMatch.getMatchedText();
                             List<Integer> itemIds = itemService.getItemIdByName(matchedItemName);
                             if (!itemIds.isEmpty()) {
-                                Integer typeId = itemIds.get(0); // 使用匹配到的物品ID
+                                Integer typeId = itemIds.getFirst(); // 使用匹配到的物品ID
                                 List<HistoricalOrderObj> historicalOrders;
                                 if(marketService.isPLEX(matchedItemName)){
                                     historicalOrders = marketService.getHistoricalOrders(MarketLocationEnum.PLEX.getRegionId(), 44992);
@@ -199,7 +198,7 @@ public class MarketPlugin extends BotPlugin {
                             String matchedItemName = firstMatch.getMatchedText();
                             List<Integer> itemIds = itemService.getItemIdByName(matchedItemName);
                             if (!itemIds.isEmpty()) {
-                                Integer typeId = itemIds.get(0); // 使用匹配到的物品ID
+                                Integer typeId = itemIds.getFirst(); // 使用匹配到的物品ID
                                 List<HistoricalOrderObj> historicalOrders;
                                 if(marketService.isPLEX(matchedItemName)){
                                     historicalOrders = marketService.getHistoricalOrders(MarketLocationEnum.PLEX.getRegionId(), 44992);

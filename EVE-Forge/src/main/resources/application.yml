@@ -24,6 +24,7 @@ shiro:
   plugin-list:
     -  org.eveforge.plugin.MarketPlugin
     -  org.eveforge.plugin.DailyRandomPlugin
+    -  org.eveforge.plugin.ServerUpTimeCheckPlugin
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

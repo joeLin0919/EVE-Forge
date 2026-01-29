@@ -16,6 +16,11 @@ public class ProductPriceVo implements Serializable {
     private String name;
 
     /**
+     * 物品ID
+     */
+    private Integer itemId;
+
+    /**
      * 购买价格
      */
     private Double buyPrice;

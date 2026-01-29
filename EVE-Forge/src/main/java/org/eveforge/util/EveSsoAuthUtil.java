@@ -24,6 +24,7 @@ public class EveSsoAuthUtil {
     private String clientSecret;
     private static final String AUTH_URL = "https://login.eveonline.com/v2/oauth/authorize";
     private static final String TOKEN_URL = "https://login.eveonline.com/v2/oauth/token";
+    private static final String VERIFY_URL = "https://login.eveonline.com/oauth/verify";
     private static final SecureRandom random = new SecureRandom();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -101,5 +102,83 @@ public class EveSsoAuthUtil {
      */
     private String encodeUrl(String url) {
         return java.net.URLEncoder.encode(url, StandardCharsets.UTF_8);
+    }
+    
+    /**
+     * 验证访问令牌并获取角色信息
+     *
+     * @param accessToken 用于验证的访问令牌
+     * @return 包含角色信息的JSON节点
+     */
+    public JsonNode verifyToken(String accessToken) throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        headers.set("User-Agent", "EVE-Forge Application");
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        String jsonResponse = restTemplate.exchange(
+            VERIFY_URL,
+            org.springframework.http.HttpMethod.GET,
+            entity,
+            String.class
+        ).getBody();
+
+        return objectMapper.readTree(jsonResponse);
+    }
+    
+    /**
+     * 使用刷新令牌获取新的访问令牌
+     *
+     * @param refreshToken 用于刷新访问令牌的刷新令牌
+     * @return 包含新访问令牌的JSON节点
+     */
+    public JsonNode refreshToken(String refreshToken) throws Exception {
+        // Encode client credentials in Base64
+        String credentials = clientId + ":" + clientSecret;
+        String encodedCredentials = Base64.getEncoder()
+                .encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Authorization", "Basic " + encodedCredentials);
+
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("grant_type", "refresh_token");
+        body.add("refresh_token", refreshToken);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(body, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        String jsonResponse = restTemplate.postForObject(TOKEN_URL, request, String.class);
+        
+        if (jsonResponse == null || jsonResponse.contains("error")) {
+            throw new RuntimeException("Failed to refresh token: " + jsonResponse);
+        }
+
+        return objectMapper.readTree(jsonResponse);
+    }
+    
+    /**
+     * 检查访问令牌是否即将过期
+     *
+     * @param expiresAt 令牌过期时间戳（秒）
+     * @param threshold 提前检查的阈值（秒），默认300秒（5分钟）
+     * @return 如果令牌即将过期则返回true
+     */
+    public boolean isTokenExpiring(long expiresAt, int threshold) {
+        long currentTime = System.currentTimeMillis() / 1000; // 转换为秒
+        return (expiresAt - currentTime) <= threshold;
+    }
+    
+    /**
+     * 检查访问令牌是否即将过期（使用默认阈值5分钟）
+     *
+     * @param expiresAt 令牌过期时间戳（秒）
+     * @return 如果令牌即将过期则返回true
+     */
+    public boolean isTokenExpiring(long expiresAt) {
+        return isTokenExpiring(expiresAt, 300); // 默认提前5分钟刷新
     }
 }

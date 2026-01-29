@@ -18,6 +18,7 @@ import java.util.Map;
 public class EsiClient {
 
     private static final String ESI_BASE_URL = "https://esi.evetech.net/";
+    private static final String SSO_BASE_URL = "https://login.eveonline.com/";
     private static final String USER_AGENT = "EVE-Forge Application";
 
     private final RestTemplate restTemplate;
@@ -187,6 +188,7 @@ public class EsiClient {
         headers.set("Accept-Language", "zh");
         return headers;
     }
+    
 
     /**
      * 设置数据源 (tranquility 或 singularity)
