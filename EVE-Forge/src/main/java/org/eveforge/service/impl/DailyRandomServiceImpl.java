@@ -93,6 +93,7 @@ public class DailyRandomServiceImpl implements IDailyRandomService {
                 .atStartOfDay(ZoneId.systemDefault())
                 .toEpochSecond();
         redisTemplate.expireAt(changeKey, Instant.ofEpochSecond(expireTime));
+        redisTemplate.expireAt(key, Instant.ofEpochSecond(expireTime));
         return getChangeDescription(dailyChange);
     }
 
