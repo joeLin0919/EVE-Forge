@@ -36,7 +36,7 @@ public class ServerUpTimeServiceImpl implements IServerUpTimeService {
                 redisTemplate.opsForValue().set(serverStartTime, status.getStartTime().toString());
                 return status.getStartTime();
             }
-            if (!status.getStartTime().toString().equals(formerStartTime)){
+            if (!status.getStartTime().toString().equals(formerStartTime)&&status.getVip()==null){
                 redisTemplate.opsForValue().set(serverStartTime, status.getStartTime().toString());
                 return status.getStartTime();
             }
