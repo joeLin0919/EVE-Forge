@@ -7,6 +7,7 @@ import org.eveforge.util.EsiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.sql.Timestamp;
 
@@ -32,6 +33,9 @@ public class ServerUpTimeServiceImpl implements IServerUpTimeService {
         try {
             ServerStatus status = esiClient.get(endpoint, ServerStatus.class);
             String formerStartTime = redisTemplate.opsForValue().get(serverStartTime);
+            if(status.getVip()){
+                throw new Exception("Server is in VIP mod");
+            }
             if (formerStartTime == null){
                 redisTemplate.opsForValue().set(serverStartTime, status.getStartTime().toString());
                 return status.getStartTime();
